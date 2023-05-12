@@ -4,12 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.google.common.base.Optional;
-
-import java.io.IOException;
 
 public class Caller{
     // public long getAllPopulation(String path) {
@@ -46,5 +42,10 @@ public class Caller{
         .skip(1).map(n -> n.split(","))
         .map(n -> n[4]).collect(Collectors.toList());
         return data;
+    }
+
+    public int population(List<String> pop){
+        return pop.stream().map(n -> Integer.parseInt(n)).reduce((a,n) -> a + n).orElse(0);
+        // return 0;
     }
 }

@@ -38,10 +38,10 @@ public class PopulationCounterTest {
     //     // Teardown
     //     System.setOut(old);
     // }
+    Caller file = mock(Caller.class);
 
     @Test
     public void caller() throws IOException{
-        Caller file = mock(Caller.class);
         List<String> list = new ArrayList<String>();
         list.add("1");
         list.add("220");
@@ -52,5 +52,54 @@ public class PopulationCounterTest {
 
         List<String> actual = file.fileCall("./data/worldcitiespop.csv");
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void fileParse() throws IOException{
+        
+        // Caller file = mock(Caller.class);
+        List<String> list = new ArrayList<String>();
+        list.add("ad,aixas,Aix�s,06,,42.4833333,1.4666667");
+        list.add("ad,aixirivali,Aixirivali,06,,42.4666667,1.5");
+        list.add("ad,aixirivall,Aixirivall,06,,42.4666667,1.5");
+        list.add("ad,aixirvall,Aixirvall,06,,42.4666667,1.5");
+        when(file.fileCall("./data/worldcitiespop.csv")).thenReturn(list);
+        // List<String> expected = list;
+        List<String> actual = file.fileCall("./data/worldcitiespop.csv");
+
+        List<String> data = new ArrayList<String>();
+        data.add("6");
+        data.add("6");
+        data.add("6");
+
+        when(file.fileParse(actual)).thenReturn(data);
+        List<String> result = file.fileParse(actual);
+        assertEquals(result, data);
+    }
+
+    @Test
+    public void population() throws IOException{
+        List<String> list = new ArrayList<String>();
+        list.add("ad,aixas,Aix�s,06,,42.4833333,1.4666667");
+        list.add("ad,aixirivali,Aixirivali,06,,42.4666667,1.5");
+        list.add("ad,aixirivall,Aixirivall,06,,42.4666667,1.5");
+        list.add("ad,aixirvall,Aixirvall,06,,42.4666667,1.5");
+        when(file.fileCall("./data/worldcitiespop.csv")).thenReturn(list);
+        // List<String> expected = list;
+        List<String> actual = file.fileCall("./data/worldcitiespop.csv");
+
+        List<String> data = new ArrayList<String>();
+        data.add("6");
+        data.add("6");
+        data.add("6");
+
+        when(file.fileParse(actual)).thenReturn(data);
+        List<String> result = file.fileParse(actual);
+
+        when(file.population(result)).thenReturn(18);
+
+        int finalResult = file.population(result);
+
+        assertEquals(finalResult,18);
     }
 }
